@@ -124,3 +124,29 @@ img{
     text-align:center;
     box-shadow: 2px 2px 3px #999;  
 }
+
+
+.contactImage{
+    padding-top: 3%;
+    display: block;
+    margin: auto;
+    width: 55%;
+  }
+  
+  .contactInfo{
+    padding-top: 3%;
+    display: block;
+    margin: auto;
+    width: 35%;
+    text-align:center;
+    color: darkturquoise;
+    font-weight: 500 ;
+    h1{
+      color: black;
+    }
+  }
+  
+  .divFlex{
+      display: flex;
+  }
+  
