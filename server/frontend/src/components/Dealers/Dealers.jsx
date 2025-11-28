@@ -6,10 +6,11 @@ import review_icon from "../assets/reviewicon.png"
 
 const Dealers = () => {
   const [dealersList, setDealersList] = useState([]);
-  // let [state, setState] = useState("")
+  const [searchQuery, setSearchQuery] = useState('');
+  let [state, setState] = useState("")
   let [states, setStates] = useState([])
 
-  // let root_url = window.location.origin
+  let root_url = window.location.origin
   let dealer_url ="/djangoapp/get_dealers";
   
   let dealer_url_by_state = "/djangoapp/get_dealers/";
@@ -40,11 +41,30 @@ const Dealers = () => {
 
       setStates(Array.from(new Set(states)))
       setDealersList(all_dealers)
+      setOriginalDealers(all_dealers);
     }
   }
   useEffect(() => {
     get_dealers();
   },[]);  
+
+  const [originalDealers, setOriginalDealers] = useState([]);
+
+  const handleInputChange = (event) => {
+    
+    const query = event.target.value;
+    setSearchQuery(query);
+    const filtered = originalDealers.filter(dealer =>
+      dealer.state.toLowerCase().includes(query.toLowerCase())
+    );
+    setDealersList(filtered);
+  };
+
+  const handleLostFocus = () => {
+    if (!searchQuery) {
+      setDealersList(originalDealers);
+    }
+  }
 
 
 let isLoggedIn = sessionStorage.getItem("username") != null ? true : false;
@@ -60,13 +80,8 @@ return(
       <th>Address</th>
       <th>Zip</th>
       <th>
-      <select name="state" id="state" onChange={(e) => filterDealers(e.target.value)}>
-      <option value="" selected disabled hidden>State</option>
-      <option value="All">All States</option>
-      {states.map(state => (
-          <option value={state}>{state}</option>
-      ))}
-      </select>        
+      <input type="text" placeholder="Search states..." onChange={handleInputChange} onBlur={handleLostFocus} value={searchQuery}>
+      </input>        
 
       </th>
       {isLoggedIn ? (
