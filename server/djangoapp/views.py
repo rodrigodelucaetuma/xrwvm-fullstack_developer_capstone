@@ -6,7 +6,12 @@ from django.contrib.auth import logout
 # from django.contrib import messages
 # from datetime import datetime
 from .models import CarMake, CarModel
-from .restapis import get_request, analyze_review_sentiments, post_review, searchcars_request
+from .restapis import (
+    get_request,
+    analyze_review_sentiments,
+    post_review,
+    searchcars_request
+)
 
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
@@ -169,6 +174,7 @@ def add_review(request):
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
 
+
 # Code for the view
 def get_inventory(request, dealer_id):
     data = request.GET
@@ -185,7 +191,7 @@ def get_inventory(request, dealer_id):
             endpoint = "/carsbyprice/"+str(dealer_id)+"/"+data['price']
         else:
             endpoint = "/cars/"+str(dealer_id)
- 
+
         cars = searchcars_request(endpoint)
         return JsonResponse({"status": 200, "cars": cars})
     else:
